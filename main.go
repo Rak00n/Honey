@@ -1,4 +1,4 @@
-package main
+package github.com/Rak00n/Honey
 
 import (
 	"encoding/json"
