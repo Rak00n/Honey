@@ -14,6 +14,7 @@ import (
 
 func main() {
 	interfaceToListen := "E0-2E-0B-31-B1-8B"
+	portsToListen := []int{80, 443, 22}
 	interfaceToListen = strings.ReplaceAll(interfaceToListen, "-", ":")
 	interfaceToListen = strings.ToLower(interfaceToListen)
 	// Open the device for capturing
@@ -27,7 +28,7 @@ func main() {
 			}
 		}
 	}
-
+	fmt.Println(portsToListen)
 	os.Exit(1)
 	devs, err := pcap.FindAllDevs()
 	for _, dev := range devs {
