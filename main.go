@@ -84,7 +84,7 @@ func main() {
 				dstPort := dstPortSlice[0]
 				if portInList(dstPort, runningConfig.PortsToListen) {
 					fmt.Println("Alert! Packet to: ", dstPort)
-					sendTelegramCommand("Alert! Packet to: " + dstPort)
+					sendTelegramCommand("Alert! Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
 				}
 			}
 		}
