@@ -4,4 +4,5 @@
 Requirements: libpcap (for Linux: "apt install libpcap-dev", for windows just install Wireshark)
 
 Get help: honey.exe -h
-Run the App with app.exe -config config.json
+
+Run the App: honey.exe -config config.json
