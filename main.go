@@ -50,7 +50,8 @@ func main() {
 	configFile, err := ioutil.ReadFile(configPath)
 
 	if err := json.Unmarshal(configFile, &runningConfig); err != nil {
-		panic(err)
+		fmt.Println("Error reading config file")
+		os.Exit(1)
 	}
 
 	deviceToCapture, ipsToCapture := getInterfaceAndIPs(runningConfig.InterfaceMAC)
