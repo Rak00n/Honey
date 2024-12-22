@@ -6,3 +6,7 @@ Requirements: libpcap (for Linux: "apt install libpcap-dev", for windows just in
 Get help: honey.exe -h
 
 Run the App: honey.exe -config config.json
+
+Sample configuration file:
+
+
