@@ -1,0 +1,6 @@
+{
+  "interfaceMAC": "E0-2E-0B-31-B1-8B",
+  "telegramBotToken": "1234567890:jdh5ryreyuruijfgyuw4sd4r34589auiIUs",
+  "honeypotPorts": ["22","80","443"],
+  "telegramChatIDs": [ 421964774 ]
+}
