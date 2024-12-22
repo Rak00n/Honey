@@ -1,12 +1,17 @@
 # Honey
 ## Honeypot application for Windows and Linux with Telegram alerting
 
-Requirements: libpcap (for Linux: "apt install libpcap-dev", for windows just install Wireshark)
+Requirements: 
+  - libpcap (for Linux: "apt install libpcap-dev", for windows just install Wireshark)
+  - Telegram Bot Token (you can create one with @BotFather)
+  - Telegram Chat ID (after you created your bot send it any message and go to "https://api.telegram.org/bot&lt;YOURTOKENSTRING&gt;/getUpdates" and grab your chat id)
 
-Get help: honey.exe -h
+Before launch change all the necessary changes in **config.json**
 
-Run the App: honey.exe -config config.json
+Get help: **honey.exe -h**
 
-Sample configuration file:
+Run the App: **honey.exe -config config.json**
+
+
 
 
