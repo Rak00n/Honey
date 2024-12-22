@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -38,14 +39,20 @@ type conf struct {
 }
 
 var runningConfig conf
+var configPath string
+
+func init() {
+	flag.StringVar(&configPath, "config", "config.json", "path to config file")
+	flag.Parse()
+}
 
 func main() {
-	configFile, err := ioutil.ReadFile("config.json")
+	configFile, err := ioutil.ReadFile(configPath)
 
 	if err := json.Unmarshal(configFile, &runningConfig); err != nil {
 		panic(err)
 	}
-	
+
 	deviceToCapture, ipsToCapture := getInterfaceAndIPs(runningConfig.InterfaceMAC)
 	if deviceToCapture == "" {
 		fmt.Println("No device to capture")
