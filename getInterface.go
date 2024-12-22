@@ -79,7 +79,7 @@ func getInterfaceAndIPs(macAddress string) (string, []string) {
 			fmt.Println("Something went wrong: ", err)
 			os.Exit(1)
 		} else {
-			resultSlice := strings.Split(string(result), "\n")
+			resultSlice := strings.Split(string(result), " ")
 			for _, v := range resultSlice {
 				vTemp := strings.Trim(v, " ")
 				if checkIPAddress(vTemp) {
