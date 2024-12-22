@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
+	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -28,17 +30,28 @@ func addressInList(ip string, listOfIPs []string) bool {
 	return false
 }
 
-func main() {
-	//interfaceMAC := "E0:2E:0B:31:B1:8B"
-	interfaceMAC := "00:15:5D:4F:2E:7A"
-	portsToListen := []string{"80", "443", "22"}
+type conf struct {
+	InterfaceMAC     string   `json:"interfaceMAC"`
+	TelegramBotToken string   `json:"telegramBotToken"`
+	PortsToListen    []string `json:"honeypotPorts"`
+	TelegramChatIDs  []int64  `json:"telegramChatIDs"`
+}
 
-	deviceToCapture, ipsToCapture := getInterfaceAndIPs(interfaceMAC)
+var runningConfig conf
+
+func main() {
+	configFile, err := ioutil.ReadFile("config.json")
+
+	if err := json.Unmarshal(configFile, &runningConfig); err != nil {
+		panic(err)
+	}
+	
+	deviceToCapture, ipsToCapture := getInterfaceAndIPs(runningConfig.InterfaceMAC)
 	if deviceToCapture == "" {
 		fmt.Println("No device to capture")
 		os.Exit(1)
 	}
-	fmt.Println("Device MAC: " + interfaceMAC)
+	fmt.Println("Device MAC: " + runningConfig.InterfaceMAC)
 	fmt.Println("Device IPs: " + strings.Join(ipsToCapture, " "))
 	fmt.Println("Honeypot launched on " + deviceToCapture)
 	handle, err := pcap.OpenLive(deviceToCapture, 1600, true, pcap.BlockForever)
@@ -62,8 +75,9 @@ func main() {
 				tcp, _ := tcpLayer.(*layers.TCP)
 				dstPortSlice := strings.Split(tcp.DstPort.String(), "(")
 				dstPort := dstPortSlice[0]
-				if portInList(dstPort, portsToListen) {
+				if portInList(dstPort, runningConfig.PortsToListen) {
 					fmt.Println("Alert! Packet to: ", dstPort)
+					sendTelegramCommand("Alert! Packet to: " + dstPort)
 				}
 			}
 		}
