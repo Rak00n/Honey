@@ -10,7 +10,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"runtime"
 	"strings"
+	"time"
 )
 
 func portInList(port string, listOfPorts []string) bool {
@@ -31,6 +33,23 @@ func addressInList(ip string, listOfIPs []string) bool {
 	return false
 }
 
+func logMessage(message string) {
+	f, err := os.OpenFile("./honey.log",
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Println(err)
+	}
+	defer f.Close()
+
+	t := time.Now()
+
+	timestamp := t.Format("2006-01-02 15:04:05")
+
+	if _, err := f.WriteString(timestamp + " " + message + newLineSeparator); err != nil {
+		log.Println(err)
+	}
+}
+
 type conf struct {
 	InterfaceMAC     string   `json:"interfaceMAC"`
 	TelegramBotToken string   `json:"telegramBotToken"`
@@ -40,10 +59,16 @@ type conf struct {
 
 var runningConfig conf
 var configPath string
+var newLineSeparator string
 
 func init() {
 	flag.StringVar(&configPath, "config", "config.json", "path to config file")
 	flag.Parse()
+	if runtime.GOOS == "windows" {
+		newLineSeparator = "\r\n"
+	} else {
+		newLineSeparator = "\n"
+	}
 }
 
 func main() {
@@ -85,6 +110,7 @@ func main() {
 				dstPort := dstPortSlice[0]
 				if portInList(dstPort, runningConfig.PortsToListen) {
 					fmt.Println("Alert! Packet to: ", dstPort)
+					logMessage("Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
 					sendTelegramCommand("Alert! Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
 				}
 			}
