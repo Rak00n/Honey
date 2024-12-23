@@ -1,6 +1,14 @@
 # Honey
 ## Honeypot application for Windows and Linux with Telegram alerting
 
+Small application which listens network interface and reacts on incoming packets to specific local ports defined in configuration file.
+
+This app doesn't open ports on our local machine, but this feature might arrive in future...
+
+Simple configuration:
+  - Network interface MAC address
+  - Telegram Bot
+
 Requirements: 
   - libpcap (for Linux: "apt install libpcap-dev", for windows just install Wireshark)
   - Telegram Bot Token (you can create one with @BotFather)
