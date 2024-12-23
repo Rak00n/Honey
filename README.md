@@ -8,6 +8,7 @@ This app doesn't open ports on our local machine, but this feature might arrive 
 Simple configuration:
   - Network interface MAC address
   - Telegram Bot
+  - Logging to local file
 
 Requirements: 
   - libpcap (for Linux: "apt install libpcap-dev", for windows just install Wireshark)
