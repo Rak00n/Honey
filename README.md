@@ -3,7 +3,7 @@
 
 Small application which listens network interface and reacts on incoming packets to specific local ports defined in configuration file.
 
-This app doesn't open ports on our local machine, but this feature might arrive in future...
+This app doesn't open ports on your local machine, but this feature might arrive in future...
 
 Simple configuration:
   - Network interface MAC address
