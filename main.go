@@ -51,6 +51,7 @@ func logMessage(message string) {
 }
 
 type conf struct {
+	HoneypotName     string   `json:"honeypotName"`
 	InterfaceMAC     string   `json:"interfaceMAC"`
 	TelegramBotToken string   `json:"telegramBotToken"`
 	PortsToListen    []string `json:"honeypotPorts"`
@@ -84,6 +85,7 @@ func main() {
 		fmt.Println("No device to capture")
 		os.Exit(1)
 	}
+	fmt.Println("Honeypot Name: " + runningConfig.HoneypotName)
 	fmt.Println("Device MAC: " + runningConfig.InterfaceMAC)
 	fmt.Println("Device IPs: " + strings.Join(ipsToCapture, " "))
 	fmt.Println("Honeypot launched on " + deviceToCapture)
@@ -110,8 +112,8 @@ func main() {
 				dstPort := dstPortSlice[0]
 				if portInList(dstPort, runningConfig.PortsToListen) {
 					fmt.Println("Alert! Packet to: ", dstPort)
-					logMessage("Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
-					sendTelegramCommand("Alert! Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
+					logMessage("Honeypot: " + runningConfig.HoneypotName + ". Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
+					sendTelegramCommand("Alert! Honeypot: " + runningConfig.HoneypotName + ". Packet from: " + networkLevel.Src().String() + " to port " + dstPort)
 				}
 			}
 		}

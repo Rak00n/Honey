@@ -1,4 +1,5 @@
 {
+  "honeypotName": "Test Node",
   "interfaceMAC": "E0-2E-0B-31-B1-8B",
   "telegramBotToken": "1234567890:ABGljJp5uYzt0AGGjsA9Z010urWC7P1JFGw",
   "honeypotPorts": ["22","80","443"],
